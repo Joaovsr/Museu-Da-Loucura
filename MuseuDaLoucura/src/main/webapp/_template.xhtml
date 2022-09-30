@@ -1,0 +1,45 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Sistema de Agendamento - Museu Da Loucura Barbacena</title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<h:body>
+	<div id="cabecalho">
+		<h:graphicImage library="imagens" name="logoFHEMIG.png"
+			id="logoCompany" />
+		<div id="usuarioLogado">
+			<h:form rendered="#{not empty loginBean.usuario.login}">
+				<h:outputText value="Logado como: #{loginBean.usuario.login}"></h:outputText>
+				<h:commandLink value="Sair" action="#{loginBean.logout}"></h:commandLink>
+			</h:form>
+		</div>
+	</div>
+	<div id="conteudo">
+		<h:form>
+			<p:menubar>
+				<p:menuitem value="Agendamento" url="agendamento.xhtml"></p:menuitem>
+				<p:menuitem value="Cancelamento" url="cancelamento.xhtml"></p:menuitem>
+				<p:menuitem value="Atrações" url="atracao.xhtml"></p:menuitem>
+				<p:submenu label="Administração"
+					rendered="#{not empty loginBean.usuario.login}">
+					<p:menuitem value="Relatório Data e Horário"
+						url="relatorio_data_horario.xhtml"></p:menuitem>
+					<p:menuitem value="Relatório quantidade de visitas" url="relatorio_quantidade_visitas.xhtml"></p:menuitem>
+				</p:submenu>
+				<p:menuitem value="Login" url="login.xhtml"
+					rendered="#{empty loginBean.usuario.login}"></p:menuitem>
+				<p:menuitem value="Sair" action="#{loginBean.logout}"
+					rendered="#{not empty loginBean.usuario.login}" />
+			</p:menubar>
+		</h:form>
+		<ui:insert name="corpo" />
+	</div>
+	<div id="rodape">Copyright 2021. Todos os Direitos reservados a
+		João Vinicius</div>
+</h:body>
+</html>

@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/_template.xhtml">
+	<h:outputScript name="jsf.js" library="javax.faces" target="head"></h:outputScript>
+	<ui:define name="corpo">
+		<h:form id="cadastro">
+			<p:messages styleClass="erros" />
+			<h2>Relatório Data e Horário</h2>
+			<p:fieldset legend="Relatório">
+				<h:outputLabel value="Data:" for="data"></h:outputLabel>
+				<p:calendar id="data"
+					value="#{agendamentoBean.agendamento.data.time}"
+					pattern="dd/MM/yyyy">
+					<p:ajax event="dateSelect" />
+				</p:calendar>
+				
+				<h:outputLabel value="Horário:" for="horario"></h:outputLabel>
+				<p:selectOneMenu id="horario"
+					value="#{agendamentoBean.agendamento.horario}">
+					<f:selectItem itemLabel="Selecione" itemValue="" />
+					<f:selectItems
+						value="#{agendamentoBean.obterHorarios()}"
+						var="horario" itemValue="#{horario}" itemLabel="#{horario}" />
+					<p:ajax event="valueChange" update="listar_pessoas"/>
+				</p:selectOneMenu>
+			</p:fieldset>
+		</h:form>
+
+		<h:form id="listar_pessoas">
+			<h:dataTable value="#{agendamentoBean.obterPessoasHorarioData()}"
+				var="pessoa" styleClass="dados" rowClasses="impar,par">
+				<h:column>
+					<f:facet name="header">Nome:</f:facet> #{pessoa.nome} </h:column>
+				<h:column>
+					<f:facet name="header">CPF:</f:facet> #{pessoa.cpf} </h:column>
+				<h:column>
+					<f:facet name="header">Tipo do Ingresso:</f:facet> #{pessoa.tipoDoIngresso} </h:column>
+				
+				<h:column>
+					<f:facet name="header">Compareceu:</f:facet> #{pessoa.compareceu ? "Sim" : "Não" } </h:column>
+				
+				<p:column headerText="Ações">
+					<h:commandLink value="Confirmar" 
+						styleClass="btn" 
+						action="#{agendamentoBean.mudarSituacaoCompareceuPessoa(pessoa,true)}">
+						<f:ajax render="@form"></f:ajax>
+					</h:commandLink>
+					<h:commandLink value="X"
+						action="#{agendamentoBean.mudarSituacaoCompareceuPessoa(pessoa, false)}"
+						styleClass="btn btn-danger">
+						<f:ajax render="@form"></f:ajax>
+					</h:commandLink>
+				</p:column>
+			</h:dataTable>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

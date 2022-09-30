@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/_template.xhtml">
+	<h:outputScript name="jsf.js" library="javax.faces" target="head"></h:outputScript>
+	<ui:define name="corpo">
+		<h:form id="listar_pessoas">
+			<h:dataTable value="#{relatorioVisitasBean.relatorioVisitasList}"
+				var="relatorio" styleClass="dados" rowClasses="impar,par">
+				<h:column> <f:facet name="header">Dia:</f:facet> #{relatorio.data} </h:column>
+				<h:column> <f:facet name="header">Quantidade de pessoas:</f:facet> #{relatorio.quantidadeDeVisitas} </h:column>
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
